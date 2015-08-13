@@ -1,0 +1,29 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h3><%=user%></h3>
+    haha<%-include header.ejs%>haha
+    <h1><%=rows.insult%></h1>
+    <h3><%=rows.votes%></h3>
+    <%comments.forEach(function(x){%>
+      <h4><%=x.comeback%></h4>
+    <%})%>
+
+    <form action='/thread/post/<%=rows.id%>/add' method='GET'>
+      <button>Add New Comment</button>
+    </form>
+
+    <form action="/thread/post/<%=rows.id%>?_method=PUT" method='POST'>
+      <button>upvote</button>
+    </form>
+    <form action="/thread/post/down/<%=rows.id%>?_method=PUT" method='POST'>
+      <button>downvote</button>
+    </form>
+    <form action="/index" method='GET'>
+      <button>All threads</button>
+    </form>
+  </body>
+    <script type='text/javascript' src="../../script.js"></script>
+
+</html>

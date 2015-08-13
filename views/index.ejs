@@ -1,0 +1,17 @@
+<html>
+  <body>
+    <%insult.forEach(function(x){%>
+      <h4><a href='/thread/post/<%=x.id%>'><%=x.insult%></a></h4>
+      <ul>
+        <%for(var i = 0; i < 3; i++){%>
+          <%if(x.id === comment[i].thread_id){%>
+            <li><%=comment[i].comeback%></li>
+          <%}%>
+        <%}%>
+      </ul>
+    <%})%>
+    <form action='/thread/new' method='GET'>
+      <button>NEW THREAD</button>
+    </form>
+  </body>
+</html>
