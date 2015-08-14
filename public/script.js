@@ -7,6 +7,5 @@ function log(){
   var password = $('input')[1].value
 
   Cookies.set('username',username)
-  Cookies.set('password', password)
 
 }

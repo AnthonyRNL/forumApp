@@ -1,0 +1,12 @@
+<html>
+<%- include header.ejs %>
+<body>
+  </form>
+  <form action='/thread/post/<%=thread_id%>/<%=comment_id%>/?_method=PUT' method='POST'>
+    <input type='text'name='commentEdit' placeholder="<%=comment.comeback%>">
+    <button>Edit this Comeback</button>
+  </form>
+  <form action='/thread/post/<%=thread_id%>/<%=comment_id%>/?_method=DELETE' method='POST'>
+    <button>Delete this Comeback</button>
+</body>
+</html>

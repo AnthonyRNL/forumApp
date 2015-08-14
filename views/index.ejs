@@ -1,11 +1,16 @@
 <html>
+  <%-include header.ejs %>
   <body>
+    <h2>Hey <%=user%></h2>
     <%insult.forEach(function(x){%>
-      <h4><a href='/thread/post/<%=x.id%>'><%=x.insult%></a></h4>
+      <h4><a href='/thread/post/<%=x.thread_id%>'><%=x.insult%></a></h4>
+      <h3><%=x.votes%></h3>
       <ul>
-        <%for(var i = 0; i < 3; i++){%>
-          <%if(x.id === comment[i].thread_id){%>
+        <%var z = 0%>
+        <%for(var i = 0; i < comment.length && z < 3; i++){%>
+          <%if(x.thread_id === comment[i].thread_id){%>
             <li><%=comment[i].comeback%></li>
+            <%z += 1%>
           <%}%>
         <%}%>
       </ul>

@@ -8,17 +8,21 @@
     <h3><%=rows.votes%></h3>
     <%comments.forEach(function(x){%>
       <h4><%=x.comeback%></h4>
+      <a href='/thread/post/<%=x.thread_id%>/<%=x.comment_id%>'><%=x.id%>edit/delete</a>
     <%})%>
 
-    <form action='/thread/post/<%=rows.id%>/add' method='GET'>
+    <form action='/thread/post/<%=rows.thread_id%>/add' method='GET'>
       <button>Add New Comment</button>
     </form>
 
-    <form action="/thread/post/<%=rows.id%>?_method=PUT" method='POST'>
+    <form action="/thread/post/up/<%=rows.thread_id%>?_method=PUT" method='POST'>
       <button>upvote</button>
     </form>
-    <form action="/thread/post/down/<%=rows.id%>?_method=PUT" method='POST'>
+    <form action="/thread/post/down/<%=rows.thread_id%>?_method=PUT" method='POST'>
       <button>downvote</button>
+    </form>
+    <form action="/thread/post/delete/<%=rows.thread_id%>?_method=DELETE" method='POST'>
+      <button>Delete Thread</button>
     </form>
     <form action="/index" method='GET'>
       <button>All threads</button>
