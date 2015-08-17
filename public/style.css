@@ -55,7 +55,7 @@ h4{
 .modalDialog > div {
   width:400px;
   position:relative;
-  margin: 10% auto;
+  margin: 5% auto;
   padding: 5px 20px 13px 20px;
   border-radius: 10px;
   background: #fff;
@@ -68,8 +68,13 @@ h4{
   position:absolute;
   left: 50%;
   top:50%;
-  margin:-100px 0 0 -150px;
+  margin: 40px 0 0 -150px;
   /*margin: 0,auto;*/
+}
+
+.iconNav {
+  margin: -5 0 0 -10;
+  width:10%;
 }
 
 .button{
@@ -96,4 +101,14 @@ h4{
 
 span {
   color:#a70202;
+}
+
+.loglo {
+  margin-top: -80px;
+  opacity:.5;
+}
+
+.m {
+  opacity:1;
+  margin-top: -40px;
 }

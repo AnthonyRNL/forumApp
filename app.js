@@ -7,6 +7,9 @@ var methodOverride = require('method-override')
 var sqlite3 = require('sqlite3')
 var db = new sqlite3.Database('forum.db')
 var cookieParser = require('cookie-parser')
+var request = require('request')
+
+
 
 app.use(urlencodedBodyParser)
 app.use(methodOverride('_method'))
@@ -194,17 +197,32 @@ app.post('/thread/new', function(req,res){
   res.redirect('/index')
 })
 
+// app.post('/thread/random', function(req,res){
+//   db.all('SELECT * FROM insults', function(err,rows){
+//     var rand = Math.ceil(Math.random()*rows.length)
+//     db.run('INSERT INTO threads(insult, tUsername, tVotes, tShow, story) VALUES (?,?,?,?,?)', rows[rand].burn, req.cookies.username,0,1,"this was a random input",
+//     function(err){
+//       if(err){
+//         throw err
+//       }
+//     })
+//   })
+//   res.redirect('/index')
+// })
 app.post('/thread/random', function(req,res){
-  db.all('SELECT * FROM insults', function(err,rows){
-    var rand = Math.ceil(Math.random()*rows.length)
-    db.run('INSERT INTO threads(insult, tUsername, tVotes, tShow, story) VALUES (?,?,?,?,?)', rows[rand].burn, req.cookies.username,0,1,"this was a random input",
-    function(err){
-      if(err){
-        throw err
-      }
-    })
+  request("http://pleaseinsult.me/api?severity=random", function(err,ress,body){
+    if(!err && ress.statusCode == 200){
+      var data = JSON.parse(body)
+      db.run('INSERT INTO threads(insult, tUsername, tVotes, tShow, story) VALUES (?,?,?,?,?)', data.insult, req.cookies.username,0,1,"this was a random input",
+      function(err){
+        if(err){
+          throw err
+        } else {
+          res.redirect('/index')
+        }
+      })
+    }
   })
-  res.redirect('/index')
 })
 
 app.delete('/thread/delete/:thread_id', function(req,res){
