@@ -24,10 +24,10 @@ app.get('/login', function(req,res){
 
 app.get('/index', function(req,res){
   var user = req.cookies.username
-  db.all('SELECT * FROM threads WHERE show=1', function(err,rows){
+  db.all('SELECT * FROM threads WHERE tShow=1 ORDER BY tVotes DESC', function(err,rows){
     console.log(req.cookies)
 
-    db.all('SELECT * FROM comments WHERE show=1', function(cerr,crows){
+    db.all('SELECT * FROM comments WHERE cShow=1 ORDER BY cVotes DESC', function(cerr,crows){
       res.render('index.ejs', {insult:rows, comment:crows, user:user})
 
     })
@@ -42,9 +42,10 @@ app.get('/thread/new', function(req,res){
 app.get('/thread/post/:id', function(req,res){
   var thread_id = req.params.id
   var user = req.cookies.username
+  console.log(user)
   console.log(thread_id)
   db.get('SELECT * FROM threads WHERE thread_id=?', thread_id, function(err,rows){
-    db.all('SELECT * FROM comments INNER JOIN threads ON comments.thread_id=threads.thread_id WHERE comments.show=1 AND comments.thread_id=?', thread_id, function(err,cRows){
+    db.all('SELECT * FROM comments INNER JOIN threads ON comments.thread_id=threads.thread_id WHERE comments.cShow=1 AND comments.thread_id=? ORDER BY comments.cVotes DESC', thread_id, function(err,cRows){
       console.log(cRows)
       console.log(rows)
       res.render('deetzThread.ejs',{rows:rows, comments:cRows, user:user})
@@ -54,7 +55,7 @@ app.get('/thread/post/:id', function(req,res){
 
 app.put('/thread/post/up/:id', function(req,res){
   var thread_id = req.params.id
-  db.run('UPDATE threads SET votes=votes+1 WHERE thread_id=?', thread_id, function(err,rows){
+  db.run('UPDATE threads SET tVotes=tVotes+1 WHERE thread_id=?', thread_id, function(err,rows){
     if(err){
       throw err
     }
@@ -64,7 +65,29 @@ app.put('/thread/post/up/:id', function(req,res){
 
 app.put('/thread/post/down/:id', function(req,res){
   var thread_id = req.params.id
-  db.run('UPDATE threads SET votes=votes-1 WHERE thread_id=?', thread_id, function(err,rows){
+  db.run('UPDATE threads SET tVotes=tVotes-1 WHERE thread_id=?', thread_id, function(err,rows){
+    if(err){
+      throw err
+    }
+  })
+  res.redirect('/thread/post/' + thread_id)
+})
+
+app.put('/thread/comment/up/:tid/:cid', function(req,res){
+  var comment_id = req.params.cid
+  var thread_id = req.params.tid
+  db.run('UPDATE comments SET cVotes=cVotes+1 WHERE comment_id=?', comment_id, function(err,rows){
+    if(err){
+      throw err
+    }
+  })
+  res.redirect('/thread/post/' + thread_id)
+})
+
+app.put('/thread/comment/down/:tid/:cid', function(req,res){
+  var comment_id = req.params.cid
+  var thread_id = req.params.tid
+  db.run('UPDATE comments SET cVotes=cVotes-1 WHERE comment_id=?', comment_id, function(err,rows){
     if(err){
       throw err
     }
@@ -75,7 +98,7 @@ app.put('/thread/post/down/:id', function(req,res){
 app.put('/thread/post/:thread_id/:comment_id', function(req,res){
   var thread_id = req.params.thread_id
   var comment_id = req.params.comment_id
-  db.run('UPDATE comments SET comeback=? WHERE comment_id=?', req.body.commentEdit, comment_id, function(err){
+  db.run('UPDATE comments SET comeback=? WHERE comment_id=? AND cUsername=?', req.body.commentEdit, comment_id, req.cookies.username, function(err){
     if(err){
       throw err
     }
@@ -86,7 +109,7 @@ app.put('/thread/post/:thread_id/:comment_id', function(req,res){
 app.delete('/thread/post/:thread_id/:comment_id', function(req,res){
   var thread_id = req.params.thread_id
   var comment_id = req.params.comment_id
-  db.run('UPDATE comments SET show=0 WHERE comment_id=?', comment_id, function(err){
+  db.run('UPDATE comments SET cShow=0 WHERE comment_id=? AND cUsername=?', comment_id, req.cookies.username, function(err){
     if(err){
       throw err
     }
@@ -96,7 +119,7 @@ app.delete('/thread/post/:thread_id/:comment_id', function(req,res){
 
 app.get('/thread/post/:thread_id/add', function(req,res){
   var thread_id = req.params.thread_id
-  db.get('SELECT * FROM threads WHERE threads.show=1 AND threads.thread_id=?', thread_id, function(err,rows){
+  db.get('SELECT * FROM threads WHERE threads.tShow=1 AND threads.thread_id=?', thread_id, function(err,rows){
     console.log(rows)
     res.render('newComment.ejs', {thread:rows})
   })
@@ -106,8 +129,8 @@ app.post('/thread/post/:thread_id/add', function(req,res){
   var thread_id = req.params.thread_id
   console.log(thread_id)
   var comeback = req.body.comment
-  db.run('INSERT INTO comments(comeback, username, thread_id, show) VALUES (?,?,?,?)',
-  comeback, req.cookies.username, thread_id, 1,
+  db.run('INSERT INTO comments(comeback, cUsername, thread_id, cShow, cVotes) VALUES (?,?,?,?,?)',
+  comeback, req.cookies.username, thread_id, 1, 0,
   function(err){
     if(err){
       throw err
@@ -162,7 +185,7 @@ app.get('/thread/post/:thread_id/:comment_id', function(req,res){
 })
 
 app.post('/thread/new', function(req,res){
-  db.run('INSERT INTO threads(insult, username, votes, show) VALUES (?,?,?,?)', req.body.newThread, req.cookies.username,0,1,
+  db.run('INSERT INTO threads(insult, tUsername, tVotes, tShow, story) VALUES (?,?,?,?,?)', req.body.insult, req.cookies.username,0,1,req.body.story,
   function(err){
     if(err){
       throw err
@@ -171,9 +194,9 @@ app.post('/thread/new', function(req,res){
   res.redirect('/index')
 })
 
-app.delete('/thread/post/delete/:thread_id', function(req,res){
+app.delete('/thread/delete/:thread_id', function(req,res){
   var thread_id = req.params.thread_id
-  db.run('UPDATE threads SET show=0 WHERE thread_id=? AND username=?', thread_id, req.cookies.username, function(err){
+  db.run('UPDATE threads SET tShow=0 WHERE thread_id=? AND tUsername=?', thread_id, req.cookies.username, function(err){
     if(err){
       throw err
     }

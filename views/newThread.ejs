@@ -1,9 +1,27 @@
 <html>
+  <head>
+    <link rel='stylesheet' type='text/css' href='/../foundation.css'>
+    <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' type='text/css' href='/../style.css'>
+  </head>
   <body>
-    <h1>Yo, type in a new insult here</h1>
+    <%-include nav.ejs%>
+    <h1>Who said what to you?!</h1>
     <form action='/thread/new' method='POST'>
-      <textarea name='newThread' placeholder="Place new insult here!" rows="13" cols="38"></textarea>
-      <button>submit</button>
+      <div class='row'>
+        <div class='large-10 small-6 small-centered large-centered'>
+          <input type='text' name='insult' placeholder="Place burn here. We got your back.">
+          <textarea name='story' placeholder="What's the backstory?" rows="13" cols="38"></textarea>
+          <button>submit</button>
+        </div>
+      </div>
     </form>
   </body>
+  <script type='text/javascript' src="../../script.js"></script>
+  <script src="../../jquery.js"></script>
+  <script src='../../foundation.js'></script>
+  <script src='../../foundation.topbar.js'></script>
+  <script>
+    $(document).foundation();
+  </script>
 </html>

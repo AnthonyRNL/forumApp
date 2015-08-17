@@ -1,12 +1,34 @@
 <html>
-<%- include header.ejs %>
+  <head>
+    <link rel='stylesheet' type='text/css' href='/../foundation.css'>
+    <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' type='text/css' href='/../style.css'>
+  </head>
 <body>
-  </form>
+  <%- include nav.ejs %>
+</br>
+  <div class='rows'>
+    <h3>Hey, your comeback was wack. Delete or change it.</h3>
+  </div>
+</br>
+
+<div class='rows'>
   <form action='/thread/post/<%=thread_id%>/<%=comment_id%>/?_method=PUT' method='POST'>
-    <input type='text'name='commentEdit' placeholder="<%=comment.comeback%>">
-    <button>Edit this Comeback</button>
+      <input type='text'name='commentEdit' placeholder="<%=comment.comeback%>">
+      <button class="small button">Edit this Comeback</button>
   </form>
   <form action='/thread/post/<%=thread_id%>/<%=comment_id%>/?_method=DELETE' method='POST'>
-    <button>Delete this Comeback</button>
+    <button class='small button'>Delete this Comeback</button>
+  </form>
+</div>
+
 </body>
+<script type='text/javascript' src="../../../../script.js"></script>
+<script type='text/javascript' src="../../../../script.js"></script>
+<script src="../../../../jquery.js"></script>
+<script src='../../../../foundation.js'></script>
+<script src='../../../../foundation.topbar.js'></script>
+<script>
+  $(document).foundation();
+</script>
 </html>

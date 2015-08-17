@@ -1,12 +1,21 @@
 <html>
+  <head>
     <%- include header.ejs %>
+
+  </head>
   <body>
-    <form action='/login' method='POST'>
-      <input type='text' name='username' placeholder="enter your username">
-      <input type='text' name='password' placeholder="enter your password">
-      <button onclick='log()'>submit</button>
-    </form>
-    <button onclick='log()'>test</button>
-  <body>
+    <%-include nav.ejs%>
+    <br>
+    <div class='row' id='login'>
+      <div class='small-4 large-4 columns'>
+        Please enter login info
+        <form action='/login' method='POST'>
+          <input type='text' name='username' placeholder="enter your username">
+          <input type='text' name='password' placeholder="enter your password">
+          <button class='small' onclick='log()'>submit</button>
+        </form>
+      </div>
+    </div>
+  </body>
     <script type='text/javascript' src="../script.js"></script>
 </html>

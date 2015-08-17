@@ -12,38 +12,39 @@ CREATE TABLE users(
 
 CREATE TABLE threads(
   thread_id INTEGER PRIMARY KEY,
-  username TEXT,
+  tUsername TEXT,
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   insult TEXT,
-  votes INTEGER,
-  show INTEGER,
-  FOREIGN KEY(username) REFERENCES users(name)
+  story TEXT,
+  tVotes INTEGER,
+  tShow INTEGER,
+  FOREIGN KEY(tUsername) REFERENCES users(name)
 );
 
 CREATE TABLE comments(
   comment_id INTEGER PRIMARY KEY,
   thread_id INTEGER,
-  username TEXT,
+  cUsername TEXT,
   comeback TEXT,
-  votes INTEGER,
-  show INTEGER,
+  cVotes INTEGER,
+  cShow INTEGER,
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(thread_id) REFERENCES threads(id),
-  FOREIGN KEY(username) REFERENCES users(name)
+  FOREIGN KEY(cUsername) REFERENCES users(name)
 );
 
 CREATE TABLE subcomments(
   subcomment_id INTEGER PRIMARY KEY,
   thread_id INTEGER,
-  username TEXT,
+  sUsername TEXT,
   comment_id INTEGER,
   subcomment TEXT,
-  votes INTEGER,
-  show INTEGER,
+  sVotes INTEGER,
+  sShow INTEGER,
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(thread_id) REFERENCES threads(id),
   FOREIGN KEY(comment_id) REFERENCES comments(id),
-  FOREIGN KEY(username) REFERENCES users(name)
+  FOREIGN KEY(sUsername) REFERENCES users(name)
 );
 
 PRAGMA foreign_keys = ON;

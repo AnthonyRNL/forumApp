@@ -1,22 +1,45 @@
 <html>
   <%-include header.ejs %>
   <body>
+    <%-include nav.ejs%>
     <h2>Hey <%=user%></h2>
     <%insult.forEach(function(x){%>
-      <h4><a href='/thread/post/<%=x.thread_id%>'><%=x.insult%></a></h4>
-      <h3><%=x.votes%></h3>
+      <ul class='inline-list'>
+        <li><h4><a href='/thread/post/<%=x.thread_id%>'><%=x.insult%></a></h4></li>
+        <li><h4><%=x.tVotes%>&deg burn</h4></li>
+        <%var w = 0%>
+        <%for(var r = 0; r < comment.length; r++){%>
+          <%if(x.thread_id === comment[r].thread_id){%>
+            <%w += 1%>
+          <%}%>
+        <%}%>
+        <li><h4>help count: <%=w%></h4></li>
+      </ul>
+    </br>
       <ul>
         <%var z = 0%>
         <%for(var i = 0; i < comment.length && z < 3; i++){%>
           <%if(x.thread_id === comment[i].thread_id){%>
-            <li><%=comment[i].comeback%></li>
+            <li><div class='rows'><%=comment[i].comeback%></div></li><p>
             <%z += 1%>
           <%}%>
         <%}%>
       </ul>
+      <div class='row'>
+        <a href='/thread/post/<%=x.thread_id%>'>more</a>
+      </div>
+    </p>
+    </p>
     <%})%>
     <form action='/thread/new' method='GET'>
-      <button>NEW THREAD</button>
+      <button class='small button radius'>NEW THREAD</button>
     </form>
   </body>
+  <script type='text/javascript' src="script.js"></script>
+  <script src="../jquery.js"></script>
+  <script src='../foundation.js'></script>
+  <script src='../foundation.topbar.js'></script>
+  <script>
+    $(document).foundation();
+  </script>
 </html>

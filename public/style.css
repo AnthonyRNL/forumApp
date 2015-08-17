@@ -1,0 +1,99 @@
+body {
+  font-family: 'Quicksand', sans-serif;
+
+}
+
+.top-bar {
+  background-color: #a70202;
+  font-family: 'Quicksand', sans-serif;
+}
+h1, h2, h3, h4, h5 button{
+  font-family: 'Quicksand', sans-serif;
+}
+
+ul{
+  list-style: none outside none;
+}
+
+li{
+  margin-bottom:-.8rem;
+}
+
+.top-bar > .top-bar-section ul li > a{
+  background: #a70202;
+  font-family: 'Quicksand', sans-serif;
+}
+/*h2{
+  font-family: 'Quicksand', sans-serif;
+}
+
+h3{
+  font-family: 'Quicksand', sans-serif;
+}
+h4{
+  font-family: 'Quicksand', sans-serif;
+}*/
+
+.modalDialog{
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  background: rgba(0,0,0,0.8);
+  z-index:99999;
+  opacity:0;
+  -webkit-transition:opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  pointer-events: none;
+}
+.modalDialog:target {
+  opacity:1;
+  pointer-events: auto;
+}
+
+.modalDialog > div {
+  width:400px;
+  position:relative;
+  margin: 10% auto;
+  padding: 5px 20px 13px 20px;
+  border-radius: 10px;
+  background: #fff;
+  background: -moz-linear-gradient(#fff, #999);
+  background: -webkit-linear-gradient(#fff, #999);
+  background: -o-linear-gradient(#fff, #999);
+}
+
+#login {
+  position:absolute;
+  left: 50%;
+  top:50%;
+  margin:-100px 0 0 -150px;
+  /*margin: 0,auto;*/
+}
+
+.button{
+  font-family: 'Quicksand', sans-serif;
+}
+.button-group form{
+  position: relative;
+  display: inline-block;
+  margin: 1rem 0; }
+  /*.button-group:before {
+    content: attr(data-grouptype);
+    z-index: 99999;
+    color: #999;
+    display: block;
+    font-size: 1rem;
+    padding: 0.25em;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    left: 42.5%;
+    top: 0.35rem; }*/
+  .button-group button + button {
+    margin-left: 5px; }
+
+span {
+  color:#a70202;
+}

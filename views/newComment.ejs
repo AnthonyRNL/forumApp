@@ -1,8 +1,23 @@
 <html>
+<head>
+  <link rel='stylesheet' type='text/css' href='/../foundation.css'>
+  <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' type='text/css' href='/../style.css'>
+</head>
 <body>
+  <%-include nav.ejs%>
+  <h3><span>[Applying Neosporin on]  </span><%=thread.insult%></h3>
   <form action='/thread/post/<%=thread.thread_id%>/add' method='POST'>
-    <textarea name='comment' placeholder="Add your comeback!" rows='20' cols='50'></textarea>
+    <textarea name='comment' placeholder="Add your comeback!" rows='15' cols='5'></textarea>
     <button>Submit</button>
   </form>
 </body>
+<script type='text/javascript' src="../../script.js"></script>
+<script type='text/javascript' src="../../script.js"></script>
+<script src="../../jquery.js"></script>
+<script src='../../foundation.js'></script>
+<script src='../../foundation.topbar.js'></script>
+<script>
+  $(document).foundation();
+</script>
 </html>
