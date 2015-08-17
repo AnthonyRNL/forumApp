@@ -1,9 +1,25 @@
 <html>
-  <%-include header.ejs %>
+<head>
+  <link rel='stylesheet' type='text/css' href='../../foundation.css'>
+  <link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
+  <link rel='stylesheet' type='text/css' href='/../style.css'>
+</head>
   <body>
-      <h3>Thanks for registering! please sign in here: </h3>
-      <form action='/login' method='GET'>
-        <input type='submit'>
-      </form>
+    <%-include nav.ejs%>
+  </br>
+</br>
+    <div class='row'>
+      <div class='large-6 large-centered columns'>
+        <h3>Thanks for registering! please sign in <a href='/login'>here</a> </h3>
+      </div>
+    </div>
   </body>
+  <script type='text/javascript' src="../../script.js"></script>
+  <script type='text/javascript' src="../../script.js"></script>
+  <script src="../../jquery.js"></script>
+  <script src='../../foundation.js'></script>
+  <script src='../../foundation.topbar.js'></script>
+  <script>
+    $(document).foundation();
+  </script>
 </html>

@@ -31,9 +31,15 @@
     </p>
     </p>
     <%})%>
-    <form action='/thread/new' method='GET'>
-      <button class='small button radius'>NEW THREAD</button>
-    </form>
+    <div class='row'>
+        <div class='large-4 small-4 columns'><form action='/thread/new' method='GET'>
+        <button class='small button radius'>New Thread</button>
+      </form></div>
+
+        <div class='large-4 small-4 columns end'><form action='/thread/random' method='POST'>
+        <button class='small button radius'>Random Burn</button>
+      </form></div>
+    </div>
   </body>
   <script type='text/javascript' src="script.js"></script>
   <script src="../jquery.js"></script>

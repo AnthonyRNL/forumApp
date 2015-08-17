@@ -194,6 +194,19 @@ app.post('/thread/new', function(req,res){
   res.redirect('/index')
 })
 
+app.post('/thread/random', function(req,res){
+  db.all('SELECT * FROM insults', function(err,rows){
+    var rand = Math.ceil(Math.random()*rows.length)
+    db.run('INSERT INTO threads(insult, tUsername, tVotes, tShow, story) VALUES (?,?,?,?,?)', rows[rand].burn, req.cookies.username,0,1,"this was a random input",
+    function(err){
+      if(err){
+        throw err
+      }
+    })
+  })
+  res.redirect('/index')
+})
+
 app.delete('/thread/delete/:thread_id', function(req,res){
   var thread_id = req.params.thread_id
   db.run('UPDATE threads SET tShow=0 WHERE thread_id=? AND tUsername=?', thread_id, req.cookies.username, function(err){
