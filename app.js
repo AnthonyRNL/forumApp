@@ -1,3 +1,5 @@
+
+//all dependencies
 var express = require('express')
 var app = express()
 var ejs = require('ejs')
@@ -9,22 +11,23 @@ var db = new sqlite3.Database('forum.db')
 var cookieParser = require('cookie-parser')
 var request = require('request')
 
-
-
+//all express middlware
 app.use(urlencodedBodyParser)
 app.use(methodOverride('_method'))
 app.use(cookieParser())
 app.set('view-engine', 'ejs')
-
+//linking to js and css files
 app.use(express.static('public'))
 
+//routing to login page with proper url
 app.get('/', function(req,res){
   res.redirect('/login')
 })
+//routing to login page
 app.get('/login', function(req,res){
   res.render('login.ejs')
 })
-
+//listing all the threads
 app.get('/index', function(req,res){
   var user = req.cookies.username
   db.all('SELECT * FROM threads WHERE tShow=1 ORDER BY tVotes DESC', function(err,rows){
@@ -37,11 +40,12 @@ app.get('/index', function(req,res){
   })
 
 })
-
+//routing to new thread
 app.get('/thread/new', function(req,res){
   res.render('newThread.ejs')
 })
 
+//getting individual thread
 app.get('/thread/post/:id', function(req,res){
   var thread_id = req.params.id
   var user = req.cookies.username
@@ -55,7 +59,7 @@ app.get('/thread/post/:id', function(req,res){
     })
   })
 })
-
+//editing individual thread:upvote
 app.put('/thread/post/up/:id', function(req,res){
   var thread_id = req.params.id
   db.run('UPDATE threads SET tVotes=tVotes+1 WHERE thread_id=?', thread_id, function(err,rows){
@@ -65,7 +69,7 @@ app.put('/thread/post/up/:id', function(req,res){
   })
   res.redirect('/thread/post/' + thread_id)
 })
-
+//editing individual thread:downvote
 app.put('/thread/post/down/:id', function(req,res){
   var thread_id = req.params.id
   db.run('UPDATE threads SET tVotes=tVotes-1 WHERE thread_id=?', thread_id, function(err,rows){
@@ -76,6 +80,7 @@ app.put('/thread/post/down/:id', function(req,res){
   res.redirect('/thread/post/' + thread_id)
 })
 
+//editing individual comment vote:up
 app.put('/thread/comment/up/:tid/:cid', function(req,res){
   var comment_id = req.params.cid
   var thread_id = req.params.tid
@@ -87,6 +92,7 @@ app.put('/thread/comment/up/:tid/:cid', function(req,res){
   res.redirect('/thread/post/' + thread_id)
 })
 
+//editing individual comment vote: down
 app.put('/thread/comment/down/:tid/:cid', function(req,res){
   var comment_id = req.params.cid
   var thread_id = req.params.tid
@@ -98,6 +104,7 @@ app.put('/thread/comment/down/:tid/:cid', function(req,res){
   res.redirect('/thread/post/' + thread_id)
 })
 
+//editing comment
 app.put('/thread/post/:thread_id/:comment_id', function(req,res){
   var thread_id = req.params.thread_id
   var comment_id = req.params.comment_id
@@ -108,7 +115,7 @@ app.put('/thread/post/:thread_id/:comment_id', function(req,res){
   })
   res.redirect('/thread/post/' + thread_id)
 })
-
+//deleting comment
 app.delete('/thread/post/:thread_id/:comment_id', function(req,res){
   var thread_id = req.params.thread_id
   var comment_id = req.params.comment_id
@@ -120,6 +127,7 @@ app.delete('/thread/post/:thread_id/:comment_id', function(req,res){
   res.redirect('/thread/post/' + thread_id)
 })
 
+//routing to enter new comment
 app.get('/thread/post/:thread_id/add', function(req,res){
   var thread_id = req.params.thread_id
   db.get('SELECT * FROM threads WHERE threads.tShow=1 AND threads.thread_id=?', thread_id, function(err,rows){
@@ -128,6 +136,7 @@ app.get('/thread/post/:thread_id/add', function(req,res){
   })
 })
 
+//creating new comment
 app.post('/thread/post/:thread_id/add', function(req,res){
   var thread_id = req.params.thread_id
   console.log(thread_id)
@@ -143,11 +152,12 @@ app.post('/thread/post/:thread_id/add', function(req,res){
   })
 })
 
-
+//getting to registration page
 app.get('/register', function(req,res){
   res.render('register.ejs')
 })
 
+//
 app.post('/register', function(req,res){
   console.log(req.body)
   db.run('INSERT INTO users(name,password) VALUES (?,?)', req.body.username, req.body.password,

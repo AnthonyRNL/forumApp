@@ -8,10 +8,10 @@ function log(){
   Cookies.set('username',username)
 
 }
-$(document).foundation({
-    accordion: {
-      callback : function (accordion) {
-        console.log(accordion);
-      }
-    }
-  });
+// $(document).foundation({
+//     accordion: {
+//       callback : function (accordion) {
+//         console.log(accordion);
+//       }
+//     }
+//   });
